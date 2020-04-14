@@ -1,0 +1,8 @@
+{
+  "name": "flask-chat-app",
+  "version": "1.0.0",
+  "dependencies": {},
+  "devDependencies": {
+    "cryptr": "^6.0.2"
+  }
+}

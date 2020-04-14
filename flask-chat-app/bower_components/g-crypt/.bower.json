@@ -1,0 +1,37 @@
+{
+  "name": "g-crypt",
+  "description": "JS crypt and decrypt with crypto-js",
+  "authors": [
+    "Gonzalo Ayuso"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "crypt",
+    "crypto-js"
+  ],
+  "homepage": "https://github.com/gonzalo123/crypt",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "www/assets",
+    "test",
+    "tests"
+  ],
+  "main": [
+    "./lib/Crypt.js"
+  ],
+  "dependencies": {
+    "cryptojslib": "^3.1.2"
+  },
+  "_release": "dc10b551a1",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "dc10b551a12db732ba4180f15abed675b9797a59"
+  },
+  "_source": "https://github.com/gonzalo123/crypt.git",
+  "_target": "*",
+  "_originalSource": "g-crypt",
+  "_direct": true
+}

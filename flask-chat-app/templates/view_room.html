@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+          <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body style="text-align: center">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">CryptoChat</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/signup">Sign up <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/login">Log in</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+            </li>
+
+        </ul>
+    </div>
+</nav>
+<br>
+    <h4 style="color: #5fbae9">Welcome to Chat Room: {{ room.name }}</h4>
+<hr>
+    <div id="messages" style=" outline-style: solid; outline-color:black;border: 10px solid #dedede; background-color:white; border-radius: 5px; padding: 1px;
+margin: 10px ; border-width: 100px">
+
+    <form id="message_input_form" style="width:50px;height:50px;">
+        <input type="text" id="message_input" placeholder="Type a Message...">
+        <button type="submit">Send</button>
+    </form>
+
+
+
+
+    </div>
+    <div style="position: absolute; left: 100px">
+    <hr>
+    <h3>Members of the "{{ room.name }}" Chat</h3>
+    <hr>
+
+        {% for member in room_members %}
+       <ul>       <img src="/static/login.png" alt="Login" style="width:50px;height:50px;">  {{ member._id.username }}</ul>
+        {% endfor %}
+</div>
+    <div> <h3>Create a <a href="/create_room">new Chat</a></h3></div>
+     <img src="/static/group.png" alt="Login" style="width:400px;height:200px;">
+
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+
+<script>
+
+    function encrypt(message,key){
+            var cryptomessage = CryptoJS.AES.encrypt(message, key);
+            return cryptomessage.toString();
+    }
+
+    function decrypt(message,key){
+        var code = CryptoJS.AES.decrypt(message, key);
+        var decryptedMessage = code.toString(CryptoJS.enc.Utf8);
+
+        return decryptedMessage;
+    }
+
+    // Connect to Socket
+    const socket = io.connect("http://127.0.0.1:5000");
+
+    socket.on('connect', function (){
+        socket.emit('join_room', {
+            username: "{{ username }}",
+            room: "{{ room._id }}"
+        });
+
+        // get message from user input
+        let message_input = document.getElementById('message_input');
+        // user has submitted message
+        console.log("User has hit submit on following message; " + message_input)
+        document.getElementById('message_input_form').onsubmit = function (e) {
+            e.preventDefault();
+            // remove whitespace
+            let message = message_input.value.trim();
+
+            // Check message contains content
+            if(message.length){
+                <!-- Encrypt Message -->
+                var key = "";
+                console.log("Preparing to encrypt message....")
+                var encrypted = encrypt(message, key);
+                console.log("Message sucessfully encrypted, now reads:" + encrypted)
+
+                socket.emit('send_message', {
+                    username: "{{ username }}",
+                    room: "{{ room._id }}",
+                    <!-- Send Encrypted Message -->
+                    message: encrypted
+                })
+            }
+            message_input.value = '';
+            message_input.focus();
+        }
+    });
+
+    socket.on('receive_message', function (data) {
+        console.log("received encrypted message:");
+        console.log(data.message);
+        <!-- Decrypting and Displaying Message -->
+        console.log("Recieved Message: " + data.message)
+        var decrypted_message = decrypt(data.message, "")
+        console.log("Decrypting Message.....")
+        console.log("Message Decrypted: " + decrypted_message)
+        const newNode = document.createElement('div');
+        newNode.innerHTML = `<b>${data.username}:&nbsp;</b> ${decrypted_message}`;
+        document.getElementById('messages').appendChild(newNode);
+    });
+
+    socket.on('join_room_announcement', function (data){
+        console.log(data);
+        const newNode = document.createElement('div');
+        newNode.innerHTML = `<img src="/static/login.png" alt="Login" style="width:50px;height:50px;"><h4>${data.username} has joined the room</h4>`;
+        document.getElementById('messages').appendChild(newNode);
+    });
+
+</script>
+</html>

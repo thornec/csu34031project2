@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Room</title>
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body style="text-align: center">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/create_room">CryptoChat</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/signup">Sign up <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/login">Log in</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/create_room">Create an Encrypted Chat Room</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+ <h3> Create an Encrypted Chat Room </h3>
+    <img src="/static/group.png" alt="Login" style="width:600px;height:400px;">
+
+    <h3> {{ message }}</h3>
+    <form method="post">
+        <label>Room Name:</label>
+        <input type="text" name="room_name">
+        <br>
+        <label>Members:</label>
+        <input type="text" name="members">
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

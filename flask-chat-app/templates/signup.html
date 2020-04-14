@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign up</title>
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body style="text-align: center">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/signup">CryptoChat</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/signup">Sign up <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/login">Log in</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+            </li>
+
+        </ul>
+    </div>
+</nav>
+
+<div style="display: inline-block; left: 50%; right: 50%; border: #5fbae9">
+    <h1 style="color: #5fbae9">Sign Up</h1>
+    <hr>
+    <br>
+    <img src="/static/login.png" alt="Login" style="width:200px;height:200px;">
+    <br>
+    <br>
+    <h3>Please enter your name,email and password to create an account with us!</h3>
+    <hr>
+    <h4 style="color: #999999">If you already have an account try <a href="/login">logging in</a> </h4>
+
+    <br>
+    <h3>{{ message }}</h3>
+     <form method="post" action="/signup" style="text-align: center; ">
+        <label>Username:</label>
+        <input type="text" name="username">
+        <br>
+        <label>Email:</label>
+        <input type="text" name="email">
+        <br>
+        <label> Password: </label>
+        <input type="password" name="password">
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+</body>
+</html>
